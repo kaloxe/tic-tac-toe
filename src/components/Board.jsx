@@ -1,24 +1,36 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+// import { useState } from "react";
 import Square from "./Square";
 import calculateWinner from "../functions/CalculateWinner";
 
-export default function Board() {
-  const [xIsNext, setXIsNext] = useState(true);
-  const [squares, setSquares] = useState(Array(9).fill(null));
+export default function Board({ xIsNext, squares, onPlay }) {
+  // const [xIsNext, setXIsNext] = useState(true);
+  // const [squares, setSquares] = useState(Array(9).fill(null));
 
+  // function handleClick(i) {
+  //   const nextSquares = squares.slice();
+  //   if (squares[i] || calculateWinner(squares)) {
+  //     return;
+  //   }
+  //   if (xIsNext) {
+  //     nextSquares[i] = "X";
+  //   } else {
+  //     nextSquares[i] = "O";
+  //   }
+  //   setSquares(nextSquares);
+  //   setXIsNext(!xIsNext);
+  // }
   function handleClick(i) {
-    const nextSquares = squares.slice();
-    if (squares[i] || calculateWinner(squares)) {
+    if (calculateWinner(squares) || squares[i]) {
       return;
     }
+    const nextSquares = squares.slice();
     if (xIsNext) {
       nextSquares[i] = "X";
     } else {
       nextSquares[i] = "O";
     }
-    setSquares(nextSquares);
-    setXIsNext(!xIsNext);
+    onPlay(nextSquares);
   }
 
   const winner = calculateWinner(squares);
